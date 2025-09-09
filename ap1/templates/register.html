@@ -1,0 +1,159 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register</title>
+   <!-- Favicon (logo shown in tab) -->
+  <link rel="icon" type="image/png" href="{% static 'assets/img/logo.png' %}">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #2c3e50;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 10px;
+    }
+
+    .container {
+      background: #fff;
+      padding: 25px 20px;
+      border-radius: 10px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0px 4px 12px rgba(0,0,0,0.25);
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .tabs a {
+      flex: 1;
+      text-align: center;
+      text-decoration: none;
+      font-weight: bold;
+      color: #333;
+      padding: 8px 0;
+      border-bottom: 2px solid transparent;
+      transition: 0.3s;
+    }
+
+    .tabs a.active {
+      border-bottom: 2px solid orange;
+      color: orange;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background: #f1c40f;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #f39c12;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px 15px;
+      }
+      h2 {
+        font-size: 1.3rem;
+      }
+      .form-group input {
+        padding: 10px;
+        font-size: 13px;
+      }
+      .btn {
+        font-size: 15px;
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="tabs">
+    
+      <a href="#" class="active">Register</a>
+    </div>
+    <h2>Register</h2>
+    <form method="post" action="">
+        {% csrf_token %}
+        <input type="hidden" name="register_form" value="1">
+        {% if messages %}
+          <div>
+            {% for message in messages %}
+              <div class="alert{{ message.tags }}">{{message}}</div>
+            {% endfor %}
+          </div>
+          {% endif %}
+              <div class="form-group">
+                <label for="fullname">Full Name</label>
+                <input type="text" name="name" placeholder="username">
+            </div>
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" name="email" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="pass1" placeholder="Create password">
+            </div>
+            <div class="form-group">
+                <label for="confirm">Confirm Password</label>
+                <input type="password" name="pass2" placeholder="Confirm password">
+            </div>
+            <button type="submit" class="btn">Register</button>
+    </form>
+    <div class ="back-link">
+        <p> Already have an account?
+            <a href="{% url 'auth' %}">Back to Login</a>
+        </p>
+    </div>
+  </div>
+</body>
+</html>

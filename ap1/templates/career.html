@@ -1,0 +1,173 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <title>Careers - Our Company</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto+Slab:400,100,300,700" rel="stylesheet">
+
+  <style>
+    body { font-family: 'Roboto Slab', serif; }
+    h1,h2,h3,h4,h5,h6 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+    }
+    /* Navbar */
+    .navbar-brand img {
+  height: 60px; /* adjust as per your need */
+  width: auto;
+}
+    #mainNav { background-color: #212529; }
+    #mainNav .navbar-brand { font-weight: 700; color: #ffc800; font-size: 1.5rem; }
+    #mainNav .nav-link { color: #fff; }
+    #mainNav .nav-link:hover { color: #ffc800; }
+    /* Masthead */
+    header.masthead {
+      padding: 10rem 0;
+      background-color: #343a40;
+      color: #fff;
+      text-align: center;
+    }
+    header.masthead .masthead-heading { font-size: 3rem; margin-bottom: 1rem; }
+    header.masthead .masthead-subheading { font-size: 1.25rem; margin-bottom: 2rem; }
+    /* Section spacing */
+    .page-section { padding: 5rem 0; }
+    /* Job cards */
+    .job-card {
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 20px;
+      transition: transform .3s;
+      height: 100%;
+      background: #fff;
+    }
+    .job-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+    .btn-primary {
+      background-color: #ffc800; border: none; color: #000;
+    }
+    .btn-primary:hover { background-color: #e0ad00; color: #000; }
+    /* Footer */
+    footer { background-color: #212529; color: #fff; padding: 2rem 0; text-align: center; }
+
+    
+  </style>
+</head>
+<body id="page-top">
+
+  <!-- Navigation -->
+     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="#page-top"><img src="{% static 'assets/img/logo.png' %}" alt="..." /></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'notices' %}">Notice</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'certifications' %}">Certifications</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'team' %}">About Us</a></li>
+                        {% if request.user.is_authenticated %}
+                        {{request.user}}
+                        <li class="nav-item"></li><a class="nav-link" href="{% url 'logout' %}" type="submit">logout</a></ul></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'auth' %}" type="submit">login</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+  <!-- Masthead -->
+  <header class="masthead">
+    <div class="container">
+      <div class="masthead-subheading">Join Our Team</div>
+      <div class="masthead-heading text-uppercase">Build Your Future With Us</div>
+      <a class="btn btn-primary btn-xl text-uppercase" href="#jobs">See Openings</a>
+    </div>
+  </header>
+
+  <!-- Careers Intro -->
+  <section class="page-section" id="careers">
+    <div class="container text-center">
+      <h2 class="section-heading text-uppercase">Why Work With Us?</h2>
+      <p class="text-muted mt-3">We’re committed to innovation, teamwork, and growth. Join a workplace where your skills and ideas are valued, and your career thrives.</p>
+    </div>
+  </section>
+
+  <!-- Job Openings -->
+  <section class="page-section bg-light" id="jobs">
+    <div class="container">
+      <div class="text-center">
+        <h2 class="section-heading text-uppercase">Current Openings</h2>
+        <h3 class="section-subheading text-muted">Find a role that matches your passion</h3>
+      </div>
+      <div class="row">
+        {% for job in jobs %}
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="job-card">
+              <h4>{{job.title}}</h4>
+              <p class="text-muted">{{job.description}}</p>
+              <a href="#apply" class="btn btn-primary btn-sm">Apply Now</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Apply Form -->
+  <section class="page-section" id="apply">
+    <div class="container">
+      <div class="text-center">
+        <h2 class="section-heading text-uppercase">Apply Now</h2>
+        <h3 class="section-subheading text-muted">Submit your details and we’ll get in touch</h3>
+      </div>
+      <form method="post" action="" name="application_form">
+        {% csrf_token %}
+        <div class="row align-items-stretch mb-4">
+          <div class="col-md-6">
+            <div class="form-group mb-3">
+              <input class="form-control" type="text" name="name" placeholder="Your Name *" required>
+            </div>
+            <div class="form-group mb-3">
+              <input class="form-control" type="email" name="email" placeholder="Your Email *" required>
+            </div>
+            <div class="form-group mb-3">
+              <input class="form-control" type="text" name="job" placeholder="Position Applying For *" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group form-group-textarea mb-3">
+              <textarea class="form-control" name="message" placeholder="Your Message *" required></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <button class="btn btn-primary btn-xl text-uppercase" type="submit">Submit Application</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Our Company. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

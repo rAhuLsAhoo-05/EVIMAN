@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Certifications & Patents - Our Company</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700|Roboto+Slab:400,100,300,700" rel="stylesheet">
+  <style>
+    body { 
+      font-family: 'Roboto Slab', serif; 
+      background: #f8f9fa;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    h2 { font-family: 'Montserrat', sans-serif; font-weight: 700; }
+    #mainNav { background-color: #212529; }
+    #mainNav .navbar-brand { font-weight: 700; color: #ffc800; font-size: 1.5rem; }
+    #mainNav .nav-link { color: #fff; }
+    #mainNav .nav-link:hover { color: #ffc800; }
+
+    .page-header {
+      background: linear-gradient(135deg, #1e1e2f, #343a40);
+      color: #fff;
+      padding: 80px 0;
+      text-align: center;
+    }
+    .section-heading { margin-bottom: 50px; }
+    .card-custom {
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+    .navbar-brand img {
+  height: 45px; /* adjust as per your need */
+  width: auto;
+}
+    .card-custom img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .card-custom:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+    }
+    footer { background-color: #212529; color: #fff; padding: 1.5rem 0; text-align: center; margin-top: auto; }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand" href="#page-top"><img src="{% static 'assets/img/logo.png' %}" alt="..." /></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="fas fa-bars ms-1"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'career' %}">Career</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'notices' %}">Notice</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'team' %}">About Us</a></li>
+                        {% if request.user.is_authenticated %}
+                        {{request.user}}
+                        <li class="nav-item"></li><a class="nav-link" href="{% url 'logout' %}" type="submit">logout</a></ul></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'auth' %}" type="submit">login</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+  <!-- Hero -->
+  <header class="page-header">
+    <div class="container">
+      <h1 class="fw-bold">Certifications & Patents</h1>
+      <p class="lead">Recognitions and Intellectual Property that define our excellence</p>
+    </div>
+  </header>
+
+  <!-- Certifications Section -->
+   <section class="py-5">
+    <div class="container">
+      <div class="text-center">
+        <h2 class="section-heading text-uppercase">Our Certifications</h2>
+      </div>
+      <div class="row">
+              {% for certificate in certificates %}
+                  <div class="col-lg-6 col-md-12 mb-4">
+                    <div class="pdf-card">
+                      <h5>{{certificate.name}}</h5>
+                      <p>{{certificate.description}}</p>
+                      <iframe class="pdf-viewer" src="{{certificate.image.url }}"></iframe>
+                    </div>
+                  </div>
+              {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Patents Section -->
+  <section class="py-5 bg-light">
+    <div class="container">
+      <div class="text-center">
+        <h2 class="section-heading text-uppercase">Our Patents</h2>
+      </div>
+      <div class="row">
+        {% for patent in patents %}
+        <div class="col-lg-3 col-md-6 mb-4">
+          <div class="card-custom">
+            <img src="{{patent.document.url}}" alt="Patent 1">
+            <div class="p-3">
+              <h5>{{patent.name}}</h5>
+              <p class="text-muted">{{patent.description}}</p>
+            </div>
+          </div>
+          
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Our Company. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
