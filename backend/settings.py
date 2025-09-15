@@ -32,7 +32,7 @@ SECRET_KEY = 'django-insecure-_8@+o*2*&^3bovaun_b4an4bs*v54@4k6b$0go@b33@i%e@u!2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["www.eviman.co.in","127.0.0.1","localhost"]
+ALLOWED_HOSTS = ["www.eviman.co.in","127.0.0.1","localhost"."eviman.onrender.com"]
 
 
 # Application definition
