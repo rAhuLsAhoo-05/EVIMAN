@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 import dj_database_url
+from dotenv import load_dotenv
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+from cloudinary_storage.storage import MediaCloudinaryStorage
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,13 +52,13 @@ INSTALLED_APPS = [
 INSTALLED_APPS += ["cloudinary", "cloudinary_storage"]
 
 
-
-CLOUDINARY_STORAGE = {
-    "CLOUD_NAME": "dx1jure99",
-    "API_KEY": "498337368688994",
-    "API_SECRET": "fOS4G0lOUXEn3RvYMgDlS5YU0Jc",
-}
 DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+cloudinary.config(
+    cloud_name=os.getenv("CLOUDINARY_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET"),
+)
+
 
 
 MIDDLEWARE = [
@@ -95,11 +101,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
-            "NAME": "neondb",
-            "USER": "neondb_owner",
-            "PASSWORD": "npg_NKYRAq2Bj5Iw",
-            "HOST": "ep-little-night-a1o3x05x-pooler.ap-southeast-1.aws.neon.tech",
-            "PORT": "5432",
+            "NAME": os.getenv("DB_NAME"),
+            "USER": os.getenv("DB_USER"),
+            "PASSWORD": os.getenv("DB_PASSWORD"),
+            "HOST": os.getenv("DB_HOST"),
+            "PORT": os.getenv("DB_PORT"),
             "OPTIONS": {
                 "sslmode": "require",
                 "channel_binding": "require",
